@@ -1,0 +1,56 @@
+version: '2.2'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - $PWD/config/nginx.conf:/etc/nginx/nginx.conf
+      - $PWD/content:/usr/share/nginx/html
+    depends_on:
+      - nodeapp1
+      - nodeapp2
+      - nodeapp3
+      - nodeapp4
+    networks:
+      - nginx-tut-net
+  nodeapp1:
+    image: nodeapp:1.0
+    container_name: nodeapp1
+    ports:
+      - 1111:9999
+    environment:
+      - APPID=1111
+    networks:
+      - nginx-tut-net
+  nodeapp2:
+    image: nodeapp:1.0
+    container_name: nodeapp2
+    ports:
+      - 2222:9999
+    environment:
+      - APPID=2222
+    networks:
+      - nginx-tut-net
+  nodeapp3:
+    image: nodeapp:1.0
+    container_name: nodeapp3
+    ports:
+      - 3333:9999
+    environment:
+      - APPID=3333
+    networks:
+      - nginx-tut-net
+  nodeapp4:
+    image: nodeapp:1.0
+    container_name: nodeapp4
+    ports:
+      - 4444:9999
+    environment:
+      - APPID=4444
+    networks:
+      - nginx-tut-net
+networks:
+  nginx-tut-net:
+    driver: bridge
